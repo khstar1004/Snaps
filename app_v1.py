@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for
 from flask_talisman import Talisman
 from flask_sqlalchemy import SQLAlchemy
-from SnapsAI_test1 import InstagramAPI, convert_post, RAGConverter
+from SnapsAI import InstagramAPI, convert_post, RAGConverter
 import os
 from dotenv import load_dotenv
 import logging
