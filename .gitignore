@@ -114,3 +114,8 @@ certs/
 
 # 로컬 설정 파일
 local_settings.py
+
+# Replit
+.replit
+replit.nix
+.config/

@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
+import os
 
 class Settings(BaseSettings):
     # Supabase 설정
@@ -28,7 +29,13 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     PRODUCTION: bool = False  # 기본값 False
     ALLOW_NGROK: bool = False
-
+    
+    # Replit 환경 확인
+    IS_REPLIT: bool = os.getenv('REPL_ID') is not None
+    
+    # Replit 환경일 경우 포트 설정 변경
+    PORT: int = int(os.getenv('PORT', 8080))
+    
     # 설정 모델
     model_config = SettingsConfigDict(
         env_file=".env",
