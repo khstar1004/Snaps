@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapS - 컨텐츠 변환</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #e74c3c;
+            --text-color: #333;
+            --background-color: #f4f4f4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        main {
+            flex: 1;
+            padding: 6rem 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .conversion-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #fff;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #fff;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #loading {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav {
+                margin-top: 1rem;
+            }
+
+            nav a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            main {
+                padding: 8rem 1rem 2rem;
+            }
+
+            .modal-content {
+                margin: 20% auto;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">SnapS</div>
+            <nav>
+                <a href="/">홈</a>
+                <a href="/content-conversion" class="active">컨텐츠 변환</a>
+                <a href="/content-management">컨텐츠 관리</a>
+                <a href="/statistics">통계</a>
+                <a href="/my-page">마이페이지</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>컨텐츠 변환</h1>
+            <div class="conversion-form">
+                <div class="form-group">
+                    <label for="content">변환할 컨텐츠:</label>
+                    <textarea id="content" rows="6" placeholder="여기에 변환할 컨텐츠를 입력하세요..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="platform">대상 플랫폼:</label>
+                    <select id="platform">
+                        <option value="">플랫폼 선택</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="thread">Thread</option>
+                        <option value="facebook">Facebook</option>
+                    </select>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="has_image">
+                    <label for="has_image">이미지 포함</label>
+                </div>
+
+                <button id="convert-button" class="btn">환하기</button>
+            </div>
+
+            <div id="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>변환 중...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 변환 결과 모달 -->
+    <div id="conversion-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>변환 결과</h2>
+            <div id="converted-content"></div>
+        </div>
+    </div>
+
+    <div id="error-message"></div>
+
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 SnapS. All rights reserved.</p>
+    </footer>
+
+
+    <script>
+        async function convertContent() {
+            const content = document.getElementById('content').value;
+            const platform = document.getElementById('platform').value;
+            const hasImage = document.getElementById('has_image').checked;
+
+            if (!content || !platform) {
+                alert('컨텐츠와 대상 플랫폼을 모두 입력해주세요.');
+                return;
+            }
+
+            try {
+                showLoading();
+                const response = await fetch('/convert', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: content,
+                        platform: platform,
+                        has_image: hasImage
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('변환 요청이 실패했습니다.');
+                }
+
+                const data = await response.json();
+                
+                // 변환된 결과를 모달에 표시
+                document.getElementById('converted-content').textContent = data.converted_content;
+                document.getElementById('conversion-modal').style.display = "block";
+
+            } catch (error) {
+                console.error('컨텐츠 변환 오류:', error);
+                alert(error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        // 변환 버튼에 이벤트 리스너 추가
+        document.getElementById('convert-button').addEventListener('click', convertContent);
+
+        // 모달 관련 코드
+        const modal = document.getElementById('conversion-modal');
+        const closeBtn = document.getElementsByClassName('close')[0];
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            document.querySelector(`nav a[href="${currentPath}"]`)?.classList.add('active');
+        });
+
+        const conversionContainer = document.getElementById('conversionContainer');
+        if (conversionContainer) {
+            conversionContainer.innerHTML = `
+                <div class="conversion-card">
+                    <h3>준비 중</h3>
+                    <p>콘텐츠 변환 기능이 곧 제공될 예정입니다.</p>
+                </div>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const contentGallery = document.getElementById('content-gallery');
+            if (contentGallery) {
+                contentGallery.innerHTML = `
+                    <div class="content-card">
+                        <h3>준비 중</h3>
+                        <p>콘텐츠 변환 기능이 곧 제공될 예정입니다.</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
