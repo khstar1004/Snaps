@@ -1,0 +1,100 @@
+{
+    "platforms": [
+        {
+            "platform": "Instagram",
+            "guidelines": [
+                {
+                    "category": "content_type",
+                    "description": "고품질 이미지와 동영상이 필수. 이미지 비율은 1:1, 4:5, 16:9 지원.",
+                    "best_practices": [
+                        "밝고 선명한 이미지 사용",
+                        "브랜드 일관성 유지",
+                        "캐러셀 포스트로 스토리텔링"
+                    ]
+                },
+                {
+                    "category": "caption",
+                    "description": "첫 2-3줄이 가장 중요. 최대 2,200자 지원.",
+                    "best_practices": [
+                        "핵심 메시지를 앞부분에 배치",
+                        "이모지 적절히 활용",
+                        "관련 해시태그 30개 이내 사용"
+                    ]
+                },
+                {
+                    "category": "engagement",
+                    "description": "팔로워와의 상호작용이 중요.",
+                    "best_practices": [
+                        "질문으로 대화 유도",
+                        "댓글에 적극적으로 응답",
+                        "스토리에서 투표/퀴즈 활용"
+                    ]
+                }
+            ]
+        },
+        {
+            "platform": "Thread",
+            "guidelines": [
+                {
+                    "category": "content_type",
+                    "description": "텍스트 중심의 짧은 업데이트. 이미지는 선택사항.",
+                    "best_practices": [
+                        "간결하고 명확한 메시지",
+                        "대화를 유도하는 내용",
+                        "시의성 있는 주제 선택"
+                    ]
+                },
+                {
+                    "category": "format",
+                    "description": "최대 500자. 이미지/비디오 1개 첨부 가능.",
+                    "best_practices": [
+                        "문단 구분으로 가독성 향상",
+                        "핵심 메시지를 앞부분에 배치",
+                        "멘션과 리트윗 활용"
+                    ]
+                },
+                {
+                    "category": "timing",
+                    "description": "실시간성이 중요한 플랫폼.",
+                    "best_practices": [
+                        "트렌딩 토픽 활용",
+                        "대화형 스레드 작성",
+                        "적절한 타이밍에 포스팅"
+                    ]
+                }
+            ]
+        },
+        {
+            "platform": "Facebook",
+            "guidelines": [
+                {
+                    "category": "content_type",
+                    "description": "다양한 형식 지원 (텍스트, 이미지, 비디오, 링크 등)",
+                    "best_practices": [
+                        "비디오 콘텐츠 우선",
+                        "카드뉴스 형식 활용",
+                        "라이브 방송 활용"
+                    ]
+                },
+                {
+                    "category": "engagement",
+                    "description": "알고리즘이 참여도 중시",
+                    "best_practices": [
+                        "팔로워 참여 유도",
+                        "시의성 있는 주제 선정",
+                        "그룹 활동 활성화"
+                    ]
+                },
+                {
+                    "category": "timing",
+                    "description": "주 타겟층의 활동 시간대 고려",
+                    "best_practices": [
+                        "피크 타임 포스팅",
+                        "일관된 포스팅 주기",
+                        "시즌별 콘텐츠 계획"
+                    ]
+                }
+            ]
+        }
+    ]
+} 

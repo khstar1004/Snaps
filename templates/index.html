@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapS - 홈</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #e74c3c;
+            --text-color: #333;
+            --background-color: #f4f4f4;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+
+        .header-scrolled {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        main {
+            padding-top: 5rem;
+        }
+
+        .hero {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: #fff;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s 0.2s, transform 0.5s 0.2s;
+        }
+
+        .cta-button {
+            background-color: #fff;
+            color: var(--primary-color);
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s 0.4s, transform 0.5s 0.4s, background-color 0.3s, color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+            color: #fff;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .feature-card {
+            flex-basis: calc(33.333% - 2rem);
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .feature-card a {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .feature-card a:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .demo-video {
+            background-color: #fff;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .demo-video h2 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .company-description {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .company-description h2 {
+            margin-bottom: 2rem;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .features {
+                flex-direction: column;
+            }
+            .feature-card {
+                flex-basis: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">SnapS</div>
+            <nav>
+                <a href="/" class="active">홈</a>
+                <a href="/content-conversion">콘텐츠 변환</a>
+                <a href="/content-management">콘텐츠 관리</a>
+                <a href="/statistics">통계 분석</a>
+                <a href="/my-page">마이페이지</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>소셜 미디어 콘텐츠 관리의 혁신</h1>
+            <p>SnapS와 함께 다양한 플랫폼의 콘텐츠를 쉽고 효율적으로 관리하세요.</p>
+            <a href="/my-page" class="cta-button">무료로 시작하기</a>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">&#128193;</div>
+                <h3>콘텐츠 변환</h3>
+                <p>다양한 플랫폼에 맞게 콘텐츠를 자동으로 변환하세요.</p>
+                <a href="/content-conversion">시작하기</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128200;</div>
+                <h3>콘텐츠 관리</h3>
+                <p>모든 소셜 미디어 콘텐츠를 한 곳에서 관리하세요.</p>
+                <a href="/content-management">관리하기</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128202;</div>
+                <h3>통계 분석</h3>
+                <p>콘텐츠 성과를 분석하고 인사이트를 얻으세요.</p>
+                <a href="/statistics">분석하기</a>
+            </div>
+        </section>
+
+        <section class="demo-video">
+            <h2>SnapS 사용 방법</h2>
+            <div class="video-container" id="video-container"></div>
+        </section>
+
+        <section class="company-description">
+            <h2>SnapS 소개</h2>
+            <p>SnapS는 소셜 미디어 콘텐츠 관리를 위한 최고의 솔루션을 제공합니다. 우리의 서비스를 통해 다양한 플랫폼에 맞게 콘텐츠를 자동으로 변환하고, 모든 소셜 미디어 콘텐츠를 한 곳에서 관리하며, 콘텐츠 성과를 분석하고 인사이트를 얻을 수 있습니다.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 SnapS. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 헤더 스크롤 효과
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+
+            // 히어로 섹션 애니메이션
+            const heroElements = document.querySelectorAll('.hero > *');
+            heroElements.forEach(el => el.style.opacity = '1');
+            heroElements.forEach(el => el.style.transform = 'translateY(0)');
+
+            // 기능 카드 애니메이션
+            const featureCards = document.querySelectorAll('.feature-card');
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            featureCards.forEach(card => {
+                observer.observe(card);
+            });
+
+            // 비디오 지연 로딩
+            const videoContainer = document.getElementById('video-container');
+            const videoObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const iframe = document.createElement('iframe');
+                        iframe.setAttribute('width', '100%');
+                        iframe.setAttribute('height', '450');
+                        iframe.setAttribute('src', 'https://www.youtube.com/embed/6vDvBY5K1tg?si=vB06ARSt20MJQl_f');
+                        iframe.setAttribute('title', 'YouTube video player');
+                        iframe.setAttribute('frameborder', '0');
+                        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+                        iframe.setAttribute('allowfullscreen', '');
+                        videoContainer.appendChild(iframe);
+                        videoContainer.style.opacity = '1';
+                        videoContainer.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            videoObserver.observe(videoContainer);
+
+            // 네비게이션 하이라이트
+            const navLinks = document.querySelectorAll('nav a');
+            const sections = document.querySelectorAll('main > section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 60) {
+                        current = section.getAttribute('class');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

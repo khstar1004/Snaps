@@ -1,0 +1,359 @@
+{% extends "layout.html" %}
+
+{% block title %}SnapS - 마이페이지{% endblock %}
+
+{% block styles %}
+<style>
+    :root {
+        --primary-color: #3498db;
+        --secondary-color: #e74c3c;
+        --text-color: #333;
+        --background-color: #f5f6fa;
+    }
+
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
+
+    header {
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        padding: 1rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .logo {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    nav {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    nav a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    nav a:hover {
+        color: var(--primary-color);
+    }
+
+    nav a.active {
+        color: var(--primary-color);
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 8rem auto 2rem;
+        padding: 0 2rem;
+    }
+
+    .profile-info {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .profile-pic {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary-color);
+    }
+
+    .user-details h2 {
+        color: var(--primary-color);
+        margin: 0 0 1rem 0;
+    }
+
+    .user-details p {
+        margin: 0.5rem 0;
+        color: var(--text-color);
+    }
+
+    .connection-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        transition: transform 0.3s;
+    }
+
+    .connection-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .connection-card h3 {
+        color: var(--primary-color);
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 0.5rem;
+    }
+
+    .btn {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+        margin-right: 0.5rem;
+    }
+
+    .btn:hover {
+        background-color: #2980b9;
+    }
+
+    .btn[disabled] {
+        background-color: #ccc;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .btn-secondary {
+        background-color: var(--secondary-color);
+    }
+
+    .btn-secondary:hover {
+        background-color: #c0392b;
+    }
+
+    .connection-status {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .connected {
+        color: #27ae60;
+    }
+
+    .not-connected {
+        color: var(--secondary-color);
+    }
+
+    .info-text {
+        color: #666;
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+        font-style: italic;
+    }
+
+    .account-settings {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .account-settings h3 {
+        color: var(--primary-color);
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 0.5rem;
+    }
+
+    .account-settings ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .account-settings li {
+        margin-bottom: 1rem;
+    }
+
+    .error-message {
+        background-color: #fde8e8;
+        color: var(--secondary-color);
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .header-content {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        nav {
+            flex-direction: column;
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+
+        nav a {
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .container {
+            margin-top: 12rem;
+            padding: 0 1rem;
+        }
+
+        .profile-info {
+            flex-direction: column;
+            text-align: center;
+            gap: 1rem;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+            margin-right: 0;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+
+    {% if is_authenticated %}
+        <div class="profile-info">
+            <img src="{{ user.profile_pic or '/static/images/default-profile.png' }}" alt="프로필 사진" class="profile-pic">
+            <div class="user-details">
+                <h2>{{ user.username or '사용자' }}</h2>
+                <p><strong>이메일:</strong> {{ user.email }}</p>
+                <p><strong>가입일:</strong> {{ user.created_at.split('T')[0] if user.created_at else '' }}</p>
+            </div>
+        </div>
+
+        <div class="account-connections">
+            <div class="connection-card">
+                <h3>인스타그램 연동</h3>
+                {% if instagram_linked %}
+                    <p class="connection-status connected">✅ 연동됨</p>
+                    <button onclick="refreshInstagramToken()" class="btn">토큰 갱신</button>
+                    <button onclick="unlinkInstagramAccount()" class="btn btn-secondary">연동 해제</button>
+                {% else %}
+                    <p class="connection-status not-connected">❌ 연동되지 않음</p>
+                    <p class="info-text">* Instagram API 준비 중입니다.</p>
+                    <button class="btn" disabled style="opacity: 0.6;">
+                        Instagram 비즈니스 계정 연동하기
+                    </button>
+                    <p class="info-text">* Instagram 비즈니스 계정과 Facebook 페이지가 필요합니다.</p>
+                {% endif %}
+            </div>
+
+            <div class="connection-card">
+                <h3>Thread 연동</h3>
+                {% if thread_linked %}
+                    <p class="connection-status connected">✅ 연동됨</p>
+                    <button onclick="unlinkThreadAccount()" class="btn btn-secondary">연동 해제</button>
+                {% else %}
+                    <p class="connection-status not-connected">❌ 연동되지 않음</p>
+                    <p class="info-text">* Thread API 준비 중입니다.</p>
+                    <button class="btn" disabled style="opacity: 0.6;">Thread 연동하기</button>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="account-settings">
+            <h3>계정 설정</h3>
+            <ul>
+                <li><button onclick="changePassword()" class="btn">비밀번호 변경</button></li>
+                <li><button onclick="deleteAccount()" class="btn btn-secondary">계정 삭제</button></li>
+            </ul>
+        </div>
+    {% else %}
+        <p>로그인이 필요합니다. <a href="{{ url_for('login') }}" class="btn">로그인 하러 가기</a></p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    async function linkThreadAccount() {
+        window.location.href = '{{ url_for("thread_auth") }}';
+    }
+
+    async function unlinkInstagramAccount() {
+        if (confirm('Instagram 연동을 해제하시겠습니까?')) {
+            try {
+                const response = await fetch('/unlink/instagram', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                location.reload();
+            } catch (error) {
+                console.error('연동 해제 중 오류:', error);
+                alert('연동 해제 중 오류가 발생했습니다.');
+            }
+        }
+    }
+
+    async function unlinkThreadAccount() {
+        if (confirm('Thread 연동을 해제하시겠습니까?')) {
+            try {
+                const response = await fetch('/unlink/thread', {
+                    method: 'POST'
+                });
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('연동 해제 중 오류가 발생했습니다.');
+                }
+            } catch (error) {
+                alert('연동 해제 중 오류가 발생했습니다.');
+            }
+        }
+    }
+
+    function changePassword() {
+        alert('비밀번호 변경 기능은 준비 중입니다.');
+    }
+
+    function deleteAccount() {
+        alert('계정 삭제 기능은 준비 중입니다.');
+    }
+</script>
+{% endblock %}

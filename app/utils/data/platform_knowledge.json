@@ -1,0 +1,55 @@
+{
+    "platforms": [
+        {
+            "platform": "Thread",
+            "content": [
+                {
+                    "type": "best_practice",
+                    "content": "Thread posts should be concise and conversational. Use short paragraphs and engaging hooks."
+                },
+                {
+                    "type": "format",
+                    "content": "Optimal Thread length is 250-280 characters. Use line breaks for readability."
+                },
+                {
+                    "type": "style",
+                    "content": "Casual, authentic tone works best. Use emojis sparingly. Focus on starting conversations."
+                }
+            ]
+        },
+        {
+            "platform": "Facebook",
+            "content": [
+                {
+                    "type": "best_practice",
+                    "content": "Facebook posts should be engaging and include calls to action. Visual content performs better."
+                },
+                {
+                    "type": "format",
+                    "content": "Optimal length is 40-80 characters. Posts with questions get more engagement."
+                },
+                {
+                    "type": "style",
+                    "content": "Mix professional and casual tone. Use relevant hashtags. Include strong visuals."
+                }
+            ]
+        },
+        {
+            "platform": "네이버 블로그",
+            "content": [
+                {
+                    "type": "best_practice",
+                    "content": "SEO 최적화를 위한 키워드 배치가 중요. 단락 구분과 서브헤딩 활용."
+                },
+                {
+                    "type": "format",
+                    "content": "2000-3000자 내외의 긴 글 선호. 이미지와 텍스트의 적절한 배치."
+                },
+                {
+                    "type": "style",
+                    "content": "전문적이고 정보성 있는 콘텐츠. 목차와 단락 구분 명확히."
+                }
+            ]
+        }
+    ]
+} 

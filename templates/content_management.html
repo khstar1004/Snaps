@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapS - 콘텐츠 관리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #e74c3c;
+            --text-color: #333;
+            --background-color: #f4f4f4;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        main {
+            padding: 2rem;
+            padding-top: 5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .platform-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .platform-buttons button {
+            background-color: #fff;
+            color: var(--text-color);
+            border: 1px solid #ddd;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .platform-buttons button:hover, .platform-buttons button.active {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+
+        .platform-buttons button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .convert-button {
+            background-color: var(--secondary-color) !important;
+            color: #fff !important;
+            margin-left: auto;
+        }
+
+        .convert-button:hover {
+            background-color: #c0392b !important;
+        }
+
+        .content-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .content-item {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .content-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .content-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .content-details {
+            padding: 1rem;
+        }
+
+        .content-details .keyword {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .content-details .sns {
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            color: #666;
+        }
+
+        .content-details .date {
+            font-size: 0.8rem;
+            color: #999;
+            margin: 0;
+        }
+
+        #loading, #error-message {
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        #error-message {
+            color: var(--secondary-color);
+        }
+
+        .video-placeholder {
+            position: relative;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .video-placeholder::after {
+            content: '비디오';
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .video-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-icon::before {
+            content: '\25B6';
+            color: white;
+            font-size: 16px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                margin-top: 1rem;
+            }
+
+            nav a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            .platform-buttons {
+                flex-direction: column;
+            }
+
+            .platform-buttons button {
+                width: 100%;
+            }
+        }
+
+        .platform-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: white;
+            margin-left: 8px;
+        }
+
+        .instagram-badge {
+            background-color: #E1306C;
+        }
+
+        .threads-badge {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">SnapS</div>
+            <nav>
+                <a href="/">홈</a>
+                <a href="/content-conversion">콘텐츠 변환</a>
+                <a href="/content-management" class="active">콘텐츠 관리</a>
+                <a href="/statistics">통계 분석</a>
+                <a href="/my-page">마이페이지</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h2>콘텐츠 관리</h2>
+        <div class="platform-buttons">
+            <button onclick="filterContent('all')" class="active">전체</button>
+            <button onclick="filterContent('instagram')">Instagram</button>
+            <button onclick="filterContent('threads')">Threads</button>
+            <button onclick="location.href='/sns-converter'" class="convert-button">SNS 게시물 변환하기</button>
+        </div>
+
+        <div id="loading">콘텐츠를 불러오는 중...</div>
+        <div id="error-message"></div>
+        <div class="content-gallery" id="contentGallery"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 SnapS. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let allPosts = [];
+        let currentPlatform = 'all';
+
+        async function fetchPosts() {
+            const loading = document.getElementById('loading');
+            const errorMessage = document.getElementById('error-message');
+            const gallery = document.getElementById('contentGallery');
+
+            loading.style.display = 'block';
+            errorMessage.style.display = 'none';
+            gallery.innerHTML = '';
+
+            try {
+                // Instagram과 Thread 게시물 동시 요청
+                const [instagramPosts, threadsPosts] = await Promise.all([
+                    fetch('/instagram/media').then(r => r.json()).catch(() => []),
+                    fetch('/threads/media').then(r => r.json()).catch(() => [])
+                ]);
+
+                // 게시물 통합 및 정렬
+                allPosts = [
+                    ...instagramPosts.map(post => ({...post, platform: 'instagram'})),
+                    ...threadsPosts.map(post => ({...post, platform: 'threads'}))
+                ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                if (allPosts.length === 0) {
+                    errorMessage.textContent = '게시물이 없습니다.';
+                    errorMessage.style.display = 'block';
+                } else {
+                    displayPosts(allPosts);
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                errorMessage.textContent = `오류 발생: ${err.message}`;
+                errorMessage.style.display = 'block';
+
+                // 연동 오류 처리
+                if (err.message.includes('연동이 필요합니다')) {
+                    const platform = err.message.includes('Instagram') ? 'Instagram' : 'Threads';
+                    const relinkButton = document.createElement('button');
+                    relinkButton.textContent = `${platform} 연동하기`;
+                    relinkButton.onclick = () => window.location.href = `/auth/${platform.toLowerCase()}`;
+                    relinkButton.className = 'btn';
+                    errorMessage.appendChild(document.createElement('br'));
+                    errorMessage.appendChild(relinkButton);
+                }
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        function filterContent(platform) {
+            currentPlatform = platform;
+            const filteredPosts = platform === 'all' 
+                ? allPosts 
+                : allPosts.filter(post => post.platform === platform);
+            displayPosts(filteredPosts);
+
+            // 버튼 활성화 상태 업데이트
+            document.querySelectorAll('.platform-buttons button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`button[onclick="filterContent('${platform}')"]`).classList.add('active');
+        }
+
+        function displayPosts(posts) {
+            const gallery = document.getElementById('contentGallery');
+            gallery.innerHTML = '';
+
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'content-item';
+
+                // 미디어 표시
+                let mediaHtml;
+                if (post.media_type === 'VIDEO') {
+                    mediaHtml = `
+                        <div class="video-placeholder">
+                            <div class="video-icon"></div>
+                        </div>
+                    `;
+                } else if (post.media_urls && post.media_urls.length > 0) {
+                    mediaHtml = `<img src="${post.media_urls[0]}" alt="Post image" onerror="this.src='/static/placeholder.png'">`;
+                } else {
+                    mediaHtml = '<img src="/static/placeholder.png" alt="Placeholder image">';
+                }
+
+                // 플랫폼 뱃지 추가
+                const platformBadge = `
+                    <span class="platform-badge ${post.platform}-badge">
+                        ${post.platform === 'instagram' ? 'Instagram' : 'Threads'}
+                    </span>
+                `;
+
+                postElement.innerHTML = `
+                    ${mediaHtml}
+                    <div class="content-details">
+                        <p class="keyword">${getHashtags(post.caption || '')}${platformBadge}</p>
+                        <p class="date">${formatDate(post.timestamp)}</p>
+                        ${post.insights ? formatInsights(post.insights) : ''}
+                    </div>
+                `;
+
+                postElement.addEventListener('click', () => showPostDetails(post));
+                gallery.appendChild(postElement);
+            });
+        }
+
+        function formatInsights(insights) {
+            if (!insights || insights.length === 0) return '';
+            
+            return `
+                <div class="post-insights">
+                    ${insights.map(insight => `
+                        <div class="insight-item">
+                            <span class="insight-name">${insight.name}:</span>
+                            <span class="insight-value">${insight.value}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function showPostDetails(post) {
+            const modal = document.getElementById('post-modal');
+            const modalContent = document.getElementById('modal-content');
+
+            let mediaHtml = '';
+            if (post.media_type === 'VIDEO') {
+                mediaHtml = `
+                    <video controls style="max-width: 100%; height: auto;">
+                        <source src="${post.media_urls[0]}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>`;
+            } else {
+                mediaHtml = post.media_urls.map(url => 
+                    `<img src="${url}" alt="Instagram post" style="max-width: 100%; height: auto; margin-bottom: 10px;">`
+                ).join('');
+            }
+
+            modalContent.innerHTML = `
+                <div class="post-detail">
+                    ${mediaHtml}
+                    <div class="post-info">
+                        <p class="post-caption">${post.caption || '캡션 없음'}</p>
+                        <p class="post-timestamp">게시일: ${formatDate(post.timestamp)}</p>
+                        <p class="post-engagement">
+                            좋아요: ${post.like_count || 0}
+                            댓글: ${post.comments_count || 0}
+                        </p>
+                        <a href="${post.permalink}" target="_blank" class="post-link">
+                            Instagram에서 보기
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+
+        // 유틸리티 함수들은 그대로 유지
+        function getHashtags(caption) {
+            const hashtags = caption.match(/#\w+/g) || [];
+            return hashtags.slice(0, 3).join(' ');
+        }
+
+        function formatDate(timestamp) {
+            return new Date(timestamp).toLocaleDateString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // 페이지 로드 시 게시물 가져오기
+        document.addEventListener('DOMContentLoaded', fetchPosts);
+    </script>
+</body>
+</html>
