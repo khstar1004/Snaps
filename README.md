@@ -1,6 +1,8 @@
-# SnapS
+# SnapS - Social Media Content Management API
 
-Social Media Content Management API
+## 설치 방법
+
+1. 저장소 클론
 
 ## Description
 SnapS는 소셜 미디어 콘텐츠를 효율적으로 관리하기 위한 API 서비스입니다.

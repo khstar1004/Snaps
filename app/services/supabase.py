@@ -158,3 +158,26 @@ class SupabaseClient:
         except Exception as e:
             logger.error(f"Error getting user profile: {e}")
             return None
+
+    async def get_statistics(self):
+        """임시 통계 데이터"""
+        return {
+            "total_posts": 0,
+            "total_likes": 0,
+            "total_comments": 0,
+            "total_shares": 0
+        }
+    
+    async def get_content_management_data(self):
+        """임시 콘텐츠 관리 데이터"""
+        return {
+            "posts": [],
+            "total": 0
+        }
+    
+    async def get_content_conversion_data(self):
+        """임시 콘텐츠 변환 데이터"""
+        return {
+            "conversions": [],
+            "total": 0
+        }

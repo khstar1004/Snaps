@@ -16,6 +16,7 @@ from app.api.routes.content_management import router as content_management_route
 from app.api.routes.statistics import router as statistics_router
 import logging
 from datetime import datetime
+from mangum import Mangum
 
 logger = logging.getLogger(__name__)
 templates = Jinja2Templates(directory="templates")
@@ -27,6 +28,15 @@ app = FastAPI(
     title="SnapS API",
     description="Social Media Content Management API",
     version="1.0.0"
+)
+
+# CORS 설정 추가
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # 1. 정적 파일 설정
@@ -93,15 +103,6 @@ async def auth_middleware(request: Request, call_next):
 
     response = await call_next(request)
     return response
-
-# 6. CORS 미들웨어
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # 7. 마지막으로 세션 미들웨어 추가
 if settings.PRODUCTION:
@@ -188,7 +189,7 @@ def register_post(
 
         user = supabase.sign_up(email, password, username)
         if user:
-            # datetime 객체를 ISO 형식 문자열로 변환하여 세션에 저장
+            # datetime 객체를 ISO 형식 문자열로 변환하여 세션에 저
             session_user = {
                 "id": user["id"],
                 "email": user["email"],
