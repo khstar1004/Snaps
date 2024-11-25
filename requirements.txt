@@ -1,16 +1,35 @@
+# Web Framework
 fastapi
 uvicorn
 mangum
+starlette
+
+# Data Validation & Settings
 pydantic
 pydantic-settings
-starlette
+
+# Authentication & Security
 python-multipart
 python-jose[cryptography]
 passlib[bcrypt]
+pyOpenSSL
+
+# Templates & Database
 jinja2
 supabase
-python-dotenv
 httpx
-pyOpenSSL
+python-dotenv
+
+# Testing
 pytest
 pytest-asyncio
+
+# LangChain Ecosystem
+langchain-core
+langchain-openai
+langchain-community
+
+# AI & Vector DB
+openai
+chromadb
+tiktoken
