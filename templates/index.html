@@ -143,7 +143,7 @@
         /* 소셜 카드 스타일 */
         .social-links {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: clamp(1rem, 2vw, 1.5rem);
             width: min(90%, 1000px);
             margin: 0 auto;
@@ -216,10 +216,18 @@
             background: linear-gradient(45deg, #191919, #000000);
         }
 
+        .twitter {
+            background: linear-gradient(45deg, #000000, #141414);
+        }
+
+        .linkedin {
+            background: linear-gradient(45deg, #0077B5, #00A0DC);
+        }
+
         /* 기능 섹션 스타일 */
         .features {
-            background-color: white;
             padding: 6rem 2rem;
+            background: linear-gradient(to bottom, #ffffff, #f8fafc);
         }
 
         .features-container {
@@ -231,96 +239,115 @@
         }
 
         .feature-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(74, 144, 226, 0.1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
         }
 
         .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(74, 144, 226, 0.12);
+            border-color: rgba(74, 144, 226, 0.2);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), #357abd);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
         }
 
         .feature-icon {
-            font-size: 2.5rem;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #f0f7ff, #e6f0fd);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
             color: var(--primary-color);
-            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #e6f0fd, #d9e8fc);
         }
 
         .feature-card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: var(--text-color);
+            color: #2c3e50;
+            font-weight: 700;
         }
 
         .feature-card p {
             color: #666;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
 
-        .feature-card a {
-            display: inline-block;
+        .feature-button {
+            display: inline-flex;
+            align-items: center;
             padding: 0.8rem 1.5rem;
+            background-color: transparent;
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .feature-button:hover {
             background-color: var(--primary-color);
             color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
         }
 
-        .feature-card a:hover {
-            background-color: #357abd;
-            transform: translateY(-2px);
+        .feature-button::after {
+            content: '→';
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-button:hover::after {
+            transform: translateX(4px);
         }
 
         /* 반응형 디자인 */
         @media (max-width: 1024px) {
-            .social-links {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-
             .features-container {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
             }
         }
 
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            nav {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 1rem;
-            }
-
-            .landing-content h1 {
-                font-size: 2rem;
-            }
-
             .features-container {
                 grid-template-columns: 1fr;
             }
-        }
-
-        @media (max-width: 640px) {
-            .social-links {
-                grid-template-columns: 1fr;
-            }
-
-            .landing-container {
-                padding: 2rem 1rem;
-            }
-
-            .social-card {
-                padding: 1.2rem;
+            
+            .feature-card {
+                padding: 2rem;
             }
         }
 
@@ -386,135 +413,216 @@
             font-weight: bold;
         }
 
-        /* 통계 섹션 */
+        /* 통계 섹션 스타일 */
         .stats-section {
-            background: linear-gradient(135deg, var(--primary-color), #357abd);
-            color: white;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
             padding: 6rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
         .stats-container {
-            width: min(95%, 1200px);
+            max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 3rem;
+        }
+
+        .stat-item {
             text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
         }
 
         .stat-item h3 {
-            font-size: clamp(2rem, 3vw, 3rem);
+            font-size: 3.5rem;
+            font-weight: 700;
             margin-bottom: 1rem;
+            line-height: 1;
+            background: linear-gradient(to right, #ffffff, #e6f0fd);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        @supports not (background-clip: text) {
+            .stat-item h3 {
+                color: white;
+                background: none;
+                -webkit-text-fill-color: initial;
+            }
         }
 
         .stat-item p {
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1.1rem;
-            opacity: 0.9;
+            font-weight: 500;
         }
 
-        /* 고객 후기 섹션 */
+        /* 사용자 후기 섹션 스타일 */
         .testimonials-section {
             padding: 6rem 2rem;
-            background: white;
+            background: #f8fafc;
         }
 
         .testimonials-container {
-            width: min(95%, 1200px);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .testimonials-header h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .testimonials-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
             margin: 0 auto;
         }
 
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
-            margin-top: 3rem;
         }
 
         .testimonial-card {
-            background: #f8fafc;
+            background: white;
+            border-radius: 24px;
             padding: 2.5rem;
-            border-radius: var(--border-radius);
             position: relative;
             transition: all 0.3s ease;
+            border: 1px solid rgba(74, 144, 226, 0.1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
         }
 
         .testimonial-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 32px rgba(74, 144, 226, 0.12);
         }
 
-        .testimonial-card.highlight {
-            background: linear-gradient(135deg, #f8fafc, #e8f4ff);
-            grid-column: 1 / -1;
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
 
-        .testimonial-content p {
+        .stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+
+        .rating-number {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .testimonial-content {
             font-size: 1.1rem;
             line-height: 1.7;
             color: #2c3e50;
             margin-bottom: 2rem;
-            position: relative;
-            z-index: 1;
         }
 
         .testimonial-author {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
+            gap: 1rem;
         }
 
         .author-avatar {
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.5rem;
         }
 
-        .author-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .testimonial-author h4 {
-            font-size: 1.2rem;
-            color: var(--text-color);
+        .author-info h4 {
+            color: #2c3e50;
+            font-size: 1.1rem;
             margin-bottom: 0.3rem;
         }
 
-        .testimonial-author p {
+        .author-info p {
             color: #666;
             font-size: 0.95rem;
-            margin-bottom: 0.3rem;
         }
 
-        .follower-count, .rating {
+        .follower-count {
             display: inline-block;
-            font-size: 0.9rem;
-            color: var(--primary-color);
             background: rgba(74, 144, 226, 0.1);
+            color: #4a90e2;
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            margin-top: 0.3rem;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
         }
 
-        @media (max-width: 768px) {
+        /* 반응형 디자인 */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .stat-item h3 {
+                font-size: 2.5rem;
+            }
+            
             .testimonial-card {
                 padding: 2rem;
-            }
-
-            .testimonial-content p {
-                font-size: 1rem;
-            }
-
-            .author-avatar {
-                width: 50px;
-                height: 50px;
             }
         }
 
@@ -743,8 +851,8 @@
                             <img src="/static/images/instagram.png" alt="Instagram">
                         </div>
                         <div class="social-text">
-                            <span class="username">@asdf123</span>
-                            <span class="message">#안녕 #하세요</span>
+                            <span class="username">@snaps.official</span>
+                            <span class="message">#소셜미디어 #콘텐츠관리 #마케팅</span>
                         </div>
                     </a>
 
@@ -753,8 +861,8 @@
                             <img src="/static/images/Facebook.png" alt="Facebook">
                         </div>
                         <div class="social-text">
-                            <span class="username">@asdf123</span>
-                            <span class="message">안녕 반가워 ㅋㅋ</span>
+                            <span class="username">@snaps.global</span>
+                            <span class="message">새로운 기능이 추가되었습니다! 🎉</span>
                         </div>
                     </a>
 
@@ -763,8 +871,8 @@
                             <img src="/static/images/naverblog.png" alt="Blog">
                         </div>
                         <div class="social-text">
-                            <span class="username">@soulbe</span>
-                            <span class="message">안녕하세요</span>
+                            <span class="username">@snapsblog</span>
+                            <span class="message">콘텐츠 제작 꿀팁 공유</span>
                         </div>
                     </a>
 
@@ -773,8 +881,28 @@
                             <img src="/static/images/thread.png" alt="Thread">
                         </div>
                         <div class="social-text">
-                            <span class="username">@asdf123</span>
-                            <span class="message">안녕안녕!!</span>
+                            <span class="username">@snaps.thread</span>
+                            <span class="message">실시간 소통해요 💫</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="social-card twitter">
+                        <div class="social-icon">
+                            <img src="/static/images/x.png" alt="X">
+                        </div>
+                        <div class="social-text">
+                            <span class="username">@SnapsSocial</span>
+                            <span class="message">Join our community! #SocialMedia</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="social-card linkedin">
+                        <div class="social-icon">
+                            <img src="/static/images/Linkedin.png" alt="LinkedIn">
+                        </div>
+                        <div class="social-text">
+                            <span class="username">@SnapS-Official</span>
+                            <span class="message">Revolutionizing Social Media Management</span>
                         </div>
                     </a>
                 </div>
@@ -784,22 +912,24 @@
         <section class="features">
             <div class="features-container">
                 <div class="feature-card">
-                    <div class="feature-icon">&#128193;</div>
+                    <div class="feature-icon">📁</div>
                     <h3>콘텐츠 변환</h3>
                     <p>다양한 플랫폼에 맞게 콘텐츠를 자동으로 변환하세요.</p>
-                    <a href="/content-conversion">시작하기</a>
+                    <a href="/content-conversion" class="feature-button">시작하기</a>
                 </div>
+                
                 <div class="feature-card">
-                    <div class="feature-icon">&#128200;</div>
+                    <div class="feature-icon">📊</div>
                     <h3>콘텐츠 관리</h3>
                     <p>모든 소셜 미디어 콘텐츠를 한 곳에서 관리하세요.</p>
-                    <a href="/content-management">관리하기</a>
+                    <a href="/content-management" class="feature-button">관리하기</a>
                 </div>
+                
                 <div class="feature-card">
-                    <div class="feature-icon">&#128202;</div>
+                    <div class="feature-icon">📈</div>
                     <h3>통계 분석</h3>
                     <p>콘텐츠 성과를 분석하고 인사이트를 얻으세요.</p>
-                    <a href="/statistics">분석하기</a>
+                    <a href="/statistics" class="feature-button">분석하기</a>
                 </div>
             </div>
         </section>
@@ -855,78 +985,45 @@
 
         <section class="testimonials-section">
             <div class="testimonials-container">
-                <div class="section-title">
+                <div class="testimonials-header">
                     <h2>사용자 후기</h2>
                     <p>실제 SnapS를 사용하는 인플루언서와 일반 사용자들의 후기입니다</p>
                 </div>
                 <div class="testimonials-grid">
                     <div class="testimonial-card">
+                        <div class="rating">
+                            <div class="stars">★★★★★</div>
+                            <span class="rating-number">5.0</span>
+                        </div>
                         <div class="testimonial-content">
-                            <div class="rating-stars">★★★★★ <span>5.0</span></div>
-                            <p>"교육 콘텐츠 크리에이터로서 4.7만 팔로워를 운영하고 있는데요, SnapS를 처음 써봤을 때 정말 놀랐어요! 제가 찾던 바로 그 서비스였거든요. 특히 콘텐츠 변환 기능이 정말 혁신적이에요. 출시되면 바로 사용하고 싶습니다!"</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4>공부 쉘터</h4>
-                                    <p>교육 콘텐츠 크리에이터</p>
-                                    <span class="follower-count">팔로워 4.7만명</span>
-                                </div>
+                            "교육 콘텐츠 크리에이터로서 4.7만 팔로워를 운영하고 있는데요, SnapS를 처음 써봤을 때 정말 놀랐어요! 제가 찾던 바로 그 서비스였거든요. 특히 콘텐츠 변환 기능이 정말 혁신적이에요. 출시되면 바로 사용하고 싶습니다!"
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">공</div>
+                            <div class="author-info">
+                                <h4>공부 쉘터</h4>
+                                <p>교육 콘텐츠 크리에이터</p>
+                                <span class="follower-count">팔로워 4.7만명</span>
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="testimonial-card">
+                        <div class="rating">
+                            <div class="stars">★★★★★</div>
+                            <span class="rating-number">5.0</span>
+                        </div>
                         <div class="testimonial-content">
-                            <div class="rating-stars">★★★★★ <span>5.0</span></div>
-                            <p>"1만 명의 팔로워와 함께 일상 콘텐츠를 만들고 있어요. 여러 플랫폼에 콘텐츠를 올리는 게 항상 고민이었는데, SnapS 덕분에 시간이 정말 많이 절약됐어요! 특히 통합 관리 기능이 제일 마음에 들어요. 다른 크리에이터분들께도 추천하고 싶은 서비스입니다."</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4>mini_02</h4>
-                                    <p>라이프스타일 인플루언서</p>
-                                    <span class="follower-count">팔로워 1만명</span>
-                                </div>
+                            "1만 명의 팔로워와 함께 일상 콘텐츠를 만들고 있어요. 여러 플랫폼에 콘텐츠를 올리는 게 항상 고민이었는데, SnapS 덕분에 시간이 정말 많이 절약됐어요! 특히 통합 관리 기능이 제일 마음에 들어요."
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">M</div>
+                            <div class="author-info">
+                                <h4>mini_02</h4>
+                                <p>라이프스타일 인플루언서</p>
+                                <span class="follower-count">팔로워 1만명</span>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- 베타 테스트 결과 섹션 추가 -->
-                <div class="beta-test-results">
-                    <div class="beta-test-header">
-                        <div class="test-icon">📊</div>
-                        <h3>베타 테스트 결과</h3>
-                        <p>15명의 실제 사용자들이 참여한 베타 테스트 결과입니다</p>
-                    </div>
-                    <div class="test-stats">
-                        <div class="stat-box">
-                            <h4>9.2/10</h4>
-                            <p>종합 만족도</p>
-                        </div>
-                        <div class="stat-box">
-                            <h4>98%</h4>
-                            <p>추천 의향</p>
-                        </div>
-                        <div class="stat-box">
-                            <h4>15명</h4>
-                            <p>테스트 참여자</p>
-                        </div>
-                    </div>
-                    <div class="key-findings">
-                        <h4>주요 피드백</h4>
-                        <ul>
-                            <li>✓ 콘텐츠 변환의 정확성이 매우 높음</li>
-                            <li>✓ 플랫폼 통합 관리가 직관적이고 편리함</li>
-                            <li>✓ 시간 절약 효과가 탁월함</li>
-                        </ul>
                     </div>
                 </div>
             </div>

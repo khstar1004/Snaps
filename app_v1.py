@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for
+from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for, flash
 from flask_talisman import Talisman
 from flask_sqlalchemy import SQLAlchemy
 from flask import session
@@ -35,7 +35,7 @@ Talisman(app, force_https=True, content_security_policy=csp)
 
 
 # Database configuration for MariaDB
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}?charset=utf8mb4"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -196,37 +196,46 @@ def internal_server_error(e):
 
 @app.route('/auth/instagram')
 def instagram_auth():
-    """Instagram 테스트 사용자 연동 (개발 환경용)"""
-    if os.getenv('PRODUCTION') == 'True':
-        # 프로덕션 환경에서는 실제 OAuth 인증 사용
-        client_id = os.getenv('INSTAGRAM_CLIENT_ID')
-        redirect_uri = os.getenv('INSTAGRAM_REDIRECT_URI')
-        auth_url = f"https://api.instagram.com/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&scope=user_profile,user_media&response_type=code"
-        return redirect(auth_url)
-    
-    # 개발 환경에서는 테스트 토큰 사용
     if 'user_id' not in session:
-        return jsonify({'success': False, 'error': '로인이 필요합니다.'})
+        return jsonify({'success': False, 'error': '로그인이 필요합니다.'})
     
     try:
-        user = User.query.get(session['user_id'])
+        user = db.session.get(User, session['user_id'])
         if not user:
-            return jsonify({'success': False, 'error': '사용자를 찾을 수 없니다.'})
+            return jsonify({'success': False, 'error': '사용자를 찾을 수 없습니다.'})
         
-        # 테스트 사용자 정보로 직접 설정
-        user.instagram_id = os.getenv('USER_ID')
-        user.access_token = os.getenv('INSTAGRAM_ACCESS_TOKEN')
+        # 이미 다른 사용자가 해당 instagram_id를 사용하고 있는지 확인
+        existing_user = User.query.filter_by(instagram_id=os.getenv('USER_ID')).first()
+        if existing_user:
+            # 이미 연동된 계정이 있다면 해당 연동을 해제
+            existing_user.instagram_id = None
+            existing_user.access_token = None
+            db.session.commit()
+        
+        # 현재 사용자에게 instagram 정보 설정
+        instagram_id = os.getenv('USER_ID')
+        access_token = os.getenv('INSTAGRAM_ACCESS_TOKEN')
+        
+        user.instagram_id = instagram_id
+        user.access_token = access_token
         db.session.commit()
         
         # 세션에도 저장
-        session['instagram_access_token'] = os.getenv('INSTAGRAM_ACCESS_TOKEN')
-        session['instagram_user_id'] = os.getenv('USER_ID')
+        session['instagram_access_token'] = access_token
+        session['instagram_user_id'] = instagram_id
         
-        return redirect(url_for('my_page'))
+        return jsonify({
+            'success': True,
+            'message': 'Instagram 계정이 성공적으로 연동되었습니다.'
+        })
+        
     except Exception as e:
         db.session.rollback()
         app.logger.error(f"Instagram auth error: {str(e)}")
-        return redirect(url_for('my_page'))
+        return jsonify({
+            'success': False,
+            'error': 'Instagram 연동 중 오류가 발생했습니다.'
+        })
 
 # Instagram OAuth 콜백 (프로덕션 환경용)
 @app.route('/auth/instagram/callback')
@@ -586,6 +595,27 @@ def fetch_thread_posts():
     except Exception as e:
         app.logger.error(f"Thread posts fetch error: {str(e)}")
         return jsonify({'error': str(e)}), 500
+
+@app.route('/test-db')
+def test_db():
+    try:
+        # 데이터베이스 연결 테스트
+        users = User.query.all()
+        return jsonify({
+            'success': True,
+            'user_count': len(users),
+            'users': [{
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'instagram_id': user.instagram_id
+            } for user in users]
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
 
 # if __name__ == '__main__': 블록을 맨 아래로 이동
 if __name__ == '__main__':

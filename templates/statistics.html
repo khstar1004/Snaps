@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SnapS - 통계 분석</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #3498db;
@@ -170,6 +171,200 @@
             margin-top: 2rem;
             height: 400px;
         }
+
+        /* SNS 성과 섹션 스타일 */
+        .sns-performance-section {
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .sns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .sns-card {
+            background: linear-gradient(145deg, #ffffff, #f5f5f5);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .sns-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .sns-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .sns-header i {
+            font-size: 1.8rem;
+            margin-right: 1rem;
+        }
+
+        .instagram .sns-header i { color: #E1306C; }
+        .threads .sns-header i { color: #000000; }
+        .facebook .sns-header i { color: #1877F2; }
+
+        .sns-header h3 {
+            margin: 0;
+            color: var(--text-color);
+            font-size: 1.4rem;
+        }
+
+        .sns-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .sns-comparison-chart {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        @media (max-width: 768px) {
+            .sns-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 통계 분석 보고서 받기 섹션 스타일 */
+        .report-section {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .report-button, .submit-report-button {
+            padding: 20px 40px;
+            font-size: 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .report-button:hover, .submit-report-button:hover {
+            background-color: #45a049;
+        }
+
+        /* 이메일 입력 폼 스타일 */
+        .email-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .email-form input[type="email"] {
+            padding: 10px;
+            font-size: 18px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .email-form input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .email-form input[type="submit"]:hover {
+            background-color: #007B9E;
+        }
+
+        /* 로딩 메시지 및 스피너 스타일 */
+        .loading-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .loading-message {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 반응형 디자인 개선 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                margin-top: 1rem;
+            }
+
+            nav a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            .sns-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-item, .thread-stats, .ai-feedback, .report-section {
+                padding: 1.5rem;
+            }
+
+            .email-form input[type="email"] {
+                width: 80%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -190,6 +385,76 @@
         <div class="instagram-stats" id="instagramStats"></div>
         <div id="error-message"></div>
         <div class="ai-feedback" id="aiFeedback"></div>
+        <div class="sns-performance-section">
+            <h2>SNS 채널별 성과</h2>
+            <div class="sns-grid">
+                <div class="sns-card instagram">
+                    <div class="sns-header">
+                        <i class="fab fa-instagram"></i>
+                        <h3>Instagram</h3>
+                    </div>
+                    <div class="sns-metrics">
+                        <div class="metric">
+                            <span class="metric-value" id="instaFollowers">2,345</span>
+                            <span class="metric-label">팔로워</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value" id="instaEngagement">4.8%</span>
+                            <span class="metric-label">참여율</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value" id="instaPosts">150</span>
+                            <span class="metric-label">게시물</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sns-card threads">
+                    <div class="sns-header">
+                        <i class="fab fa-threads"></i>
+                        <h3>Threads</h3>
+                    </div>
+                    <div class="sns-metrics">
+                        <div class="metric">
+                            <span class="metric-value" id="threadFollowers">1,234</span>
+                            <span class="metric-label">팔로워</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value" id="threadEngagement">3.2%</span>
+                            <span class="metric-label">참여율</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value" id="threadPosts">85</span>
+                            <span class="metric-label">게시물</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sns-card facebook">
+                    <div class="sns-header">
+                        <i class="fab fa-facebook"></i>
+                        <h3>Facebook</h3>
+                    </div>
+                    <div class="sns-metrics">
+                        <div class="metric">
+                            <span class="metric-value" id="fbFollowers">3,456</span>
+                            <span class="metric-label">팔로워</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value" id="fbEngagement">2.9%</span>
+                            <span class="metric-label">참여율</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value" id="fbPosts">120</span>
+                            <span class="metric-label">게시물</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container sns-comparison-chart">
+                <canvas id="snsComparisonChart"></canvas>
+            </div>
+        </div>
         <div class="stats-section thread-stats">
             <h2>Thread 통계</h2>
             <div class="stats-grid">
@@ -226,16 +491,36 @@
                 <canvas id="threadEngagementChart"></canvas>
             </div>
         </div>
+
+        <!-- 통계 분석 보고서 받기 섹션 -->
+        <div class="report-section">
+            <!-- 첫 번째 단계: 초기 버튼 -->
+            <button class="report-button" id="get-report-btn">통계 분석 보고서 받기</button>
+
+            <!-- 두 번째 단계: 이메일 입력 폼 -->
+            <form class="email-form" id="email-form">
+                <input type="email" id="user-email" placeholder="이메일 주소를 입력하세요" required>
+                <input type="submit" class="submit-report-button" value="보고서 받기">
+            </form>
+
+            <!-- 로딩 메시지 및 스피너 -->
+            <div class="loading-section" id="loading-section">
+                <div class="spinner"></div>
+                <div class="loading-message" id="loading-message">sns 정보를 불러오는 중...</div>
+            </div>
+        </div>
     </main>
     <footer>
         <p>&copy; 2024 SnapS. All rights reserved.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             displayStats();
             loadThreadStats();
+            createSnsComparisonChart();
         });
 
         function displayStats() {
@@ -437,6 +722,84 @@
                     </div>
                 `;
             }
+        }
+
+        function createSnsComparisonChart() {
+            const ctx = document.getElementById('snsComparisonChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Instagram', 'Threads', 'Facebook'],
+                    datasets: [{
+                        label: '팔로워 수',
+                        data: [2345, 1234, 3456],
+                        backgroundColor: ['#E1306C', '#000000', '#1877F2'],
+                        borderColor: ['#E1306C', '#000000', '#1877F2'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'SNS 채널별 팔로워 비교'
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '팔로워 수'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 초기 보고서 받기 버튼 클릭 시 이메일 입력 폼 표시
+        document.getElementById('get-report-btn').addEventListener('click', function() {
+            const initialButton = this;
+            const emailForm = document.getElementById('email-form');
+
+            // 버튼 숨기기
+            initialButton.style.display = 'none';
+
+            // 이메일 입력 폼 표시
+            emailForm.style.display = 'block';
+        });
+
+        document.getElementById('email-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // 폼 제출 기본 동작 방지
+
+            const email = document.getElementById('user-email').value;
+            const submitButton = document.querySelector('.submit-report-button');
+            const loadingSection = document.getElementById('loading-section');
+
+            if (validateEmail(email)) {
+                // 이메일이 유효하면 로딩 메시지 및 스피너 표시
+                loadingSection.style.display = 'block';
+                submitButton.disabled = true;
+
+                // 4초 딜레이 후 로딩 메시지 및 스피너 숨기기
+                setTimeout(function() {
+                    loadingSection.style.display = 'none';
+                    window.location.href = 'https://silmmelier.kr/snaps/report.pdf';
+                }, 4000);
+            } else {
+                alert('유효한 이메일 주소를 입력하세요.');
+            }
+        });
+
+        // 이메일 형식 검증 함수
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
         }
     </script>
 </body>
