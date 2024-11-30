@@ -1,26 +1,20 @@
-# Instagram API
+# SnapS - 소셜 미디어 콘텐츠 관리 플랫폼
 
-This project provides a FastAPI-based REST API for interacting with Instagram data.
+## 프로젝트 소개
+SnapS는 소셜 미디어 콘텐츠를 효율적으로 관리하고 변환할 수 있는 플랫폼입니다.
 
-## Setup
+## 기능
+- 인스타그램/스레드 계정 연동
+- 콘텐츠 자동 변환
+- 통계 분석
+- 콘텐츠 관리
 
-1. Clone the repository
-2. Create a virtual environment: `python -m venv venv`
-3. Activate the virtual environment:
-   - Windows: `venv\Scripts\activate`
-   - macOS/Linux: `source venv/bin/activate`
-4. Install dependencies: `pip install -r requirements.txt`
-5. Create a `.env` file in the root directory and add your Instagram access token:
-   ````
-   INSTAGRAM_ACCESS_TOKEN=your_access_token_here
-   THREAD_ACCESS_TOKEN=your_thread_token_here
-   OPENAI_API_KEY=your_openai_api_key_here
-   ````
-6. Run the server: `uvicorn app.main:app --reload`
+## 기술 스택
+- Python 3.9
+- Flask
+- SQLAlchemy
+- OpenAI
+- LangChain
 
-## API Endpoints
-
-- GET `/api/posts`: Fetch recent Instagram posts
-- GET `/api/stats`: Get Instagram user statistics
-
-For more details, visit the `/docs` endpoint after starting the server.
+## 로컬 개발 환경 설정
+1. 저장소 클론

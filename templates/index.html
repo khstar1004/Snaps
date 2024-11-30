@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapS - 소셜 미디어 콘텐츠 관리의 혁신</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #e74c3c;
+            --background-color: #f4f6f9;
+            --text-color: #333;
+            --border-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            background-color: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+            background-color: rgba(74, 144, 226, 0.1);
+        }
+
+        /* 메인 섹션 스타일 */
+        main {
+            padding-top: 70px;
+        }
+
+        .landing-section {
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--background-color);
+        }
+
+        .landing-container {
+            width: min(95%, 1200px);
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: clamp(2rem, 5vw, 4rem);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+        }
+
+        .landing-content {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .landing-logo {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 2rem;
+        }
+
+        .landing-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .landing-content p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .start-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        /* 소셜 카드 스타일 */
+        .social-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: clamp(1rem, 2vw, 1.5rem);
+            width: min(90%, 1000px);
+            margin: 0 auto;
+        }
+
+        .social-card {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 1.2rem;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .social-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            position: relative;
+            z-index: 1;
+        }
+
+        .username {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+        }
+
+        .message {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* 소셜 카드 배경 */
+        .instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .facebook {
+            background: linear-gradient(45deg, #1877f2, #0099ff);
+        }
+
+        .blog {
+            background: linear-gradient(45deg, #2db400, #1f8c00);
+        }
+
+        .thread {
+            background: linear-gradient(45deg, #191919, #000000);
+        }
+
+        /* 기능 섹션 스타일 */
+        .features {
+            background-color: white;
+            padding: 6rem 2rem;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .feature-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card a {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card a:hover {
+            background-color: #357abd;
+            transform: translateY(-2px);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 1024px) {
+            .social-links {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .features-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .landing-content h1 {
+                font-size: 2rem;
+            }
+
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .social-links {
+                grid-template-columns: 1fr;
+            }
+
+            .landing-container {
+                padding: 2rem 1rem;
+            }
+
+            .social-card {
+                padding: 1.2rem;
+            }
+        }
+
+        /* 새로운 섹션들 추가 */
+        .workflow-section {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .workflow-container {
+            width: min(95%, 1200px);
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: clamp(2rem, 3vw, 2.5rem);
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .workflow-step {
+            text-align: center;
+            padding: 2rem;
+            background: #f8fafc;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-weight: bold;
+        }
+
+        /* 통계 섹션 */
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary-color), #357abd);
+            color: white;
+            padding: 6rem 2rem;
+        }
+
+        .stats-container {
+            width: min(95%, 1200px);
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: clamp(2rem, 3vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* 고객 후기 섹션 */
+        .testimonials-section {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .testimonials-container {
+            width: min(95%, 1200px);
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: #f8fafc;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-card.highlight {
+            background: linear-gradient(135deg, #f8fafc, #e8f4ff);
+            grid-column: 1 / -1;
+        }
+
+        .testimonial-content p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .testimonial-author h4 {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 0.3rem;
+        }
+
+        .testimonial-author p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .follower-count, .rating {
+            display: inline-block;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            background: rgba(74, 144, 226, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            margin-top: 0.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-card {
+                padding: 2rem;
+            }
+
+            .testimonial-content p {
+                font-size: 1rem;
+            }
+
+            .author-avatar {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* CTA 섹션 */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: var(--background-color);
+            text-align: center;
+        }
+
+        .cta-container {
+            width: min(95%, 800px);
+            margin: 0 auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .cta-button.secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        /* 푸터 추가 */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 4rem 2rem;
+        }
+
+        .footer-container {
+            width: min(95%, 1200px);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            text-align: center;
+            color: #666;
+        }
+
+        /* 기존 testimonial 스타일에 추가 */
+        .rating-stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-stars span {
+            color: #666;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+
+        .author-avatar svg {
+            width: 100%;
+            height: 100%;
+            color: #4a90e2;
+            background: #e8f4ff;
+            padding: 12px;
+            border-radius: 50%;
+        }
+
+        /* 베타 테스트 결과 스타일 */
+        .beta-test-results {
+            margin-top: 4rem;
+            background: linear-gradient(135deg, #f8fafc, #e8f4ff);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .beta-test-header {
+            margin-bottom: 3rem;
+        }
+
+        .test-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .beta-test-header h3 {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .beta-test-header p {
+            color: #666;
+        }
+
+        .test-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-box h4 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-box p {
+            color: #666;
+        }
+
+        .key-findings {
+            text-align: left;
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .key-findings h4 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .key-findings ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .key-findings li {
+            color: #666;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .test-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .beta-test-results {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">SnapS</a>
+            <nav>
+                <a href="/" class="active">홈</a>
+                <a href="/content-conversion">콘텐츠 변환</a>
+                <a href="/content-management">콘텐츠 관리</a>
+                <a href="/statistics">통계 분석</a>
+                <a href="/my-page">마이페이지</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="landing-section">
+            <div class="landing-container">
+                <div class="landing-content">
+                    <img src="/static/images/logo.png" alt="SnapS Logo" class="landing-logo">
+                    <h1>소셜 미디어 콘텐츠 관리의 혁신</h1>
+                    <p>SnapS와 함께 다양한 플랫폼의 콘텐츠를 쉽고 효율적으로 관리하세요</p>
+                    <button class="start-button">무료로 시작하기</button>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" class="social-card instagram">
+                        <div class="social-icon">
+                            <img src="/static/images/instagram.png" alt="Instagram">
+                        </div>
+                        <div class="social-text">
+                            <span class="username">@asdf123</span>
+                            <span class="message">#안녕 #하세요</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="social-card facebook">
+                        <div class="social-icon">
+                            <img src="/static/images/Facebook.png" alt="Facebook">
+                        </div>
+                        <div class="social-text">
+                            <span class="username">@asdf123</span>
+                            <span class="message">안녕 반가워 ㅋㅋ</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="social-card blog">
+                        <div class="social-icon">
+                            <img src="/static/images/naverblog.png" alt="Blog">
+                        </div>
+                        <div class="social-text">
+                            <span class="username">@soulbe</span>
+                            <span class="message">안녕하세요</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="social-card thread">
+                        <div class="social-icon">
+                            <img src="/static/images/thread.png" alt="Thread">
+                        </div>
+                        <div class="social-text">
+                            <span class="username">@asdf123</span>
+                            <span class="message">안녕안녕!!</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">&#128193;</div>
+                    <h3>콘텐츠 변환</h3>
+                    <p>다양한 플랫폼에 맞게 콘텐츠를 자동으로 변환하세요.</p>
+                    <a href="/content-conversion">시작하기</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#128200;</div>
+                    <h3>콘텐츠 관리</h3>
+                    <p>모든 소셜 미디어 콘텐츠를 한 곳에서 관리하세요.</p>
+                    <a href="/content-management">관리하기</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#128202;</div>
+                    <h3>통계 분석</h3>
+                    <p>콘텐츠 성과를 분석하고 인사이트를 얻으세요.</p>
+                    <a href="/statistics">분석하기</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="workflow-section">
+            <div class="workflow-container">
+                <div class="section-title">
+                    <h2>간단한 3단계로 시작하세요</h2>
+                    <p>SnapS와 함께라면 소셜 미디어 콘텐츠 관리가 더욱 쉬워집니다</p>
+                </div>
+                <div class="workflow-steps">
+                    <div class="workflow-step">
+                        <div class="step-number">1</div>
+                        <h3>계정 연동</h3>
+                        <p>소셜 미디어 계정을 연동하여 시작하세요</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">2</div>
+                        <h3>콘텐츠 업로드</h3>
+                        <p>한 번의 업로드로 여러 플랫폼에 게시하세요</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">3</div>
+                        <h3>성과 분석</h3>
+                        <p>실시간으로 콘텐츠 성과를 확인하세요</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>10K+</h3>
+                        <p>활성 사용자</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>100K+</h3>
+                        <p>변환된 콘텐츠</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>50+</h3>
+                        <p>지원 플랫폼</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>99%</h3>
+                        <p>고객 만족도</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials-section">
+            <div class="testimonials-container">
+                <div class="section-title">
+                    <h2>사용자 후기</h2>
+                    <p>실제 SnapS를 사용하는 인플루언서와 일반 사용자들의 후기입니다</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="rating-stars">★★★★★ <span>5.0</span></div>
+                            <p>"교육 콘텐츠 크리에이터로서 4.7만 팔로워를 운영하고 있는데요, SnapS를 처음 써봤을 때 정말 놀랐어요! 제가 찾던 바로 그 서비스였거든요. 특히 콘텐츠 변환 기능이 정말 혁신적이에요. 출시되면 바로 사용하고 싶습니다!"</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4>공부 쉘터</h4>
+                                    <p>교육 콘텐츠 크리에이터</p>
+                                    <span class="follower-count">팔로워 4.7만명</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="rating-stars">★★★★★ <span>5.0</span></div>
+                            <p>"1만 명의 팔로워와 함께 일상 콘텐츠를 만들고 있어요. 여러 플랫폼에 콘텐츠를 올리는 게 항상 고민이었는데, SnapS 덕분에 시간이 정말 많이 절약됐어요! 특히 통합 관리 기능이 제일 마음에 들어요. 다른 크리에이터분들께도 추천하고 싶은 서비스입니다."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4>mini_02</h4>
+                                    <p>라이프스타일 인플루언서</p>
+                                    <span class="follower-count">팔로워 1만명</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 베타 테스트 결과 섹션 추가 -->
+                <div class="beta-test-results">
+                    <div class="beta-test-header">
+                        <div class="test-icon">📊</div>
+                        <h3>베타 테스트 결과</h3>
+                        <p>15명의 실제 사용자들이 참여한 베타 테스트 결과입니다</p>
+                    </div>
+                    <div class="test-stats">
+                        <div class="stat-box">
+                            <h4>9.2/10</h4>
+                            <p>종합 만족도</p>
+                        </div>
+                        <div class="stat-box">
+                            <h4>98%</h4>
+                            <p>추천 의향</p>
+                        </div>
+                        <div class="stat-box">
+                            <h4>15명</h4>
+                            <p>테스트 참여자</p>
+                        </div>
+                    </div>
+                    <div class="key-findings">
+                        <h4>주요 피드백</h4>
+                        <ul>
+                            <li>✓ 콘텐츠 변환의 정확성이 매우 높음</li>
+                            <li>✓ 플랫폼 통합 관리가 직관적이고 편리함</li>
+                            <li>✓ 시간 절약 효과가 탁월함</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-container">
+                <h2>지금 바로 시작하세요</h2>
+                <p>14일 무료 체험으로 SnapS의 모든 기능을 경험해보세요</p>
+                <div class="cta-buttons">
+                    <a href="#" class="cta-button primary">무료로 시작하기</a>
+                    <a href="#" class="cta-button secondary">자세히 알아보기</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>서비스</h4>
+                <ul>
+                    <li><a href="#">콘텐츠 변환</a></li>
+                    <li><a href="#">콘텐츠 관리</a></li>
+                    <li><a href="#">통계 분석</a></li>
+                    <li><a href="#">API 문서</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>회사</h4>
+                <ul>
+                    <li><a href="#">회사 소개</a></li>
+                    <li><a href="#">블로그</a></li>
+                    <li><a href="#">채용</a></li>
+                    <li><a href="#">문의하기</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>리소스</h4>
+                <ul>
+                    <li><a href="#">고객 지원</a></li>
+                    <li><a href="#">개발자 문서</a></li>
+                    <li><a href="#">파트너십</a></li>
+                    <li><a href="#">보도자료</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>법적 고지</h4>
+                <ul>
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">쿠키 정책</a></li>
+                    <li><a href="#">법적 고지</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 SnapS. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
